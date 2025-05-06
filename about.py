@@ -1,22 +1,15 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-
-def show_about():
-    st.header("About")
-    st.write(
-        """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam pharetra
-        facilisis mauris, vel consequat odio. Nam pretium neque id sem malesuada
-        ornare. Morbi id ex pulvinar dui placerat congue. Suspendisse ultricies, lacus
-        eget porttitor blandit, enim nisi tincidunt eros, nec varius tortor turpis et
-        tortor.
-
-        Curabitur facilisis, augue eu eleifend dictum, quam lectus ullamcorper tellus,
-        auctor mollis lacus turpis id tellus. Mauris consectetur eleifend dignissim.
-        Integer nulla arcu, fringilla quis finibus vel, iaculis ac massa. Cras at
-        mauris a magna blandit mattis. Nam vel turpis et risus tempus congue ac quis
-        lectus. Pellentesque id laoreet ex, sit amet consequat leo. Aenean commodo
-        luctus tristique. Curabitur arcu urna, tempus ut lectus et, pulvinar lobortis
-        urna.
-        """
-    )
+components.html(
+    """
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="GolfLoveBot"
+  agent-id="a67f10e4-262a-4c8a-b846-d5c25cb4753c"
+  language-code="vi"
+></df-messenger>
+    """,
+    height=700, # try various values to see what works best (maybe use st.slider)
+)
