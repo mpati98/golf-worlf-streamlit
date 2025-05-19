@@ -1,2 +1,4 @@
 streamlit
 pyairtable
+openai
+streamlit-chat

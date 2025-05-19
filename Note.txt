@@ -5,3 +5,62 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/mpati98/golf-worlf-streamlit.git
 git push -u origin main
+
+import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import Chatbot from 'react-simple-chatbot';
+
+const MyChatbot = () => {
+    const [initialMessage, setInitialMessage] = useState("Hi");
+
+    useEffect(() => {
+        // Listen for data from Streamlit
+        const onStreamlitMessage = (event: MessageEvent) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'streamlit:render') {
+                if (data.initialMessage) {
+                    setInitialMessage(data.initialMessage);
+                }
+            }
+        };
+
+        window.addEventListener('message', onStreamlitMessage);
+
+        //send message to streamlit
+        const sendDataToStreamlit = (message: any) => {
+            window.parent.postMessage(JSON.stringify(message), '*');
+        }
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('message', onStreamlitMessage);
+        };
+    }, []);
+
+    const steps = [
+          {
+             id: '0',
+             message: initialMessage,
+             trigger: '1',
+           },
+           {
+             id: '1',
+             user: true,
+             trigger: '2',
+           },
+           {
+             id: '2',
+             message: 'Thanks for your input!',
+             end: true,
+          },
+    ];
+
+    return (
+        <Chatbot steps={steps} />
+    );
+};
+
+// Mount the React app
+const container = document.getElementById('root'); // Make sure your React app has a root element with id 'root'
+const root = createRoot(container!);
+root.render(<MyChatbot />);
